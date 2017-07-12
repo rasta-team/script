@@ -145,8 +145,8 @@ chmod +x  torrent.sh
 ./torrent.sh
 
 #add user
-useradd -m -g users -s /bin/bash mklet
-echo "mklet:mklet" | chpasswd
+#useradd -m -g users -s /bin/bash mklet
+#echo "mklet:mklet" | chpasswd
 
 clear
 echo "COMPLETE 100%"
