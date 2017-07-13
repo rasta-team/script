@@ -28,7 +28,17 @@ COMPLETE 15%
 #install sudo
 apt-get -y install sudo
 apt-get -y wget
- 
+
+# install badvpn
+wget -O /usr/bin/badvpn-udpgw "https://raw.github.com/blazevpn/autoscript/master/badvpn-udpgw"
+if [ "$OS" == "x86_64" ]; then
+  wget -O /usr/bin/badvpn-udpgw "https://raw.github.com/blazevpn/autoscript/master/badvpn-udpgw"
+fi
+sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local
+chmod +x /usr/bin/badvpn-udpgw
+screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
+cd
+
 #needed by openvpn-nl
 apt-get -y install apt-transport-https
 #adding source list
@@ -90,6 +100,23 @@ wget https://raw.githubusercontent.com/zero9911/script/master/script/menu
 wget https://raw.githubusercontent.com/zero9911/script/master/script/user-list
 wget https://raw.githubusercontent.com/zero9911/script/master/script/monssh
 wget https://raw.githubusercontent.com/zero9911/script/master/script/status
+
+wget -O login "https://raw.github.com/blazevpn/autoscript/master/user-login.sh"
+wget -O member "https://raw.github.com/blazevpn/autoscript/master/user-list.sh"
+wget -O resvis "https://raw.github.com/blazevpn/autoscript/master/resvis.sh"
+wget -O speedtest "https://raw.github.com/blazevpn/autoscript/master/speedtest_cli.py"
+wget -O about "https://raw.github.com/blazevpn/autoscript/master/about.sh"
+echo "0 0 * * * root /usr/bin/reboot" > /etc/cron.d/reboot
+echo "* * * * * service dropbear restart" > /etc/cron.d/dropbear
+chmod +x login
+chmod +x member
+chmod +x resvis
+chmod +x speedtest
+chmod +x about
+
+
+
+
 mv menu /usr/local/bin/
 mv user-list /usr/local/bin/
 mv monssh /usr/local/bin/
@@ -108,6 +135,19 @@ wget -O /etc/issue.net " https://raw.githubusercontent.com/zero9911/script/maste
 clear
 echo 
 "65% COMPLETE"
+
+# Install Dos Deflate
+apt-get -y install dnsutils dsniff
+wget https://github.com/jgmdev/ddos-deflate/archive/master.zip
+unzip master.zip
+cd ddos-deflate-master
+./install.sh
+cd
+
+# Install SSH autokick
+cd
+wget https://raw.githubusercontent.com/muchigo/VPS/master/Autokick-debian.sh
+bash Autokick-debian.sh
 
 #install dropbear
 apt-get -y install dropbear
@@ -158,13 +198,14 @@ service vnstat restart
 service webmin restart
 service dropbear restart
 service ssh restart
+service cron restart
 echo " DONE RESTART SERVICE"
 
 clear
 
 echo "===============================================--"
 echo "                             "
-echo "  === AUTOSCRIPT FROM MKSSHVPN === "
+echo "  === AUTOSCRIPT FROM MYVPN007 === "
 echo "WEBMIN : http://$myip:10000 "
 echo "OPENVPN PORT : 59999"
 echo "DROPBEAR PORT : 22,443"
@@ -173,8 +214,8 @@ echo "Config OPENVPN : http://$myip/max.ovpn"
 echo "SERVER TIME/LOCATION : KUALA LUMPUR +8"
 echo "TORRENT PORT HAS BLOCK BY SCRIPT"
 echo "CONTACT OWNER SCRIPT"
-echo "WHATSAPP : +60162771064"
-echo "TELEGRAM : @mk_let"
+echo "WHATSAPP : +60169872312"
+echo "TELEGRAM : @myvpn007"
 echo "For SWAP RAM PLEASE CONTACT OWNER"
 echo "  === PLEASE REBOOT TAKE EFFECT  ===  "
 echo "                                  "
